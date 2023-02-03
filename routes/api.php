@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,17 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['prefix' => 'auth'] , function (){
+    Route::post('register' , [AuthController::class , 'register']);
+    Route::post('login' , [AuthController::class , 'login']);
+});
 
-Route::post('register' , [AuthController::class , 'register']);
-Route::post('login' , [AuthController::class , 'login']);
+Route::get('products' , [ProductsController::class , 'products']);
+
+Route::group(['prefix' => 'cart' , 'middleware' => 'jwtAuth'] , function (){
+    Route::post('add' , [CartController::class , 'addtocart']);
+    Route::get('user' , [CartController::class , 'usercart']);
+
+});
+
+
