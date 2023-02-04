@@ -7,6 +7,7 @@ use App\Http\Interfaces\CartInterface;
 use App\Http\Traits\ApiResponseTrait;
 use App\Models\Cart;
 use App\Rules\StockValidation;
+use App\Rules\UpdateCartValidation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -50,12 +51,35 @@ class CartRepository implements CartInterface
 
     public function deletefromcart($request)
     {
-        // TODO: Implement deletefromcart() method.
+       $cart = Cart::find($request->cart_id);
+       if($cart)
+       {
+           $cart->delete();
+           return $this->apiResponse(200,'Cart Was Deleted');
+       }
+       return  $this->apiResponse(400,'Cart not found');
     }
 
     public function updatecart($request)
     {
-        // TODO: Implement updatecart() method.
+        $validations = Validator::make($request->all(), [
+            'product_id' => 'required|exists:products,id',
+            'count' => ['required', new UpdateCartValidation($request->product_id)]
+        ]);
+        if ($validations->fails()) {
+            return $this->apiResponse(400, 'validation errors', $validations->errors());
+        }
+
+        $cart = Cart::where([ ['user_id' , Auth::user()->id], ['product_id' , $request->product_id] ])->first();
+
+        if ($cart)
+        {
+            $cart->update([
+                'count' => $request->count
+            ]);
+            return $this->apiResponse(200,'Cart Was Updated');
+        }
+        return  $this->apiResponse(400,'Cart not found');
     }
 
     public function usercart()

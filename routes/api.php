@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,9 +25,12 @@ Route::group(['prefix' => 'auth'] , function (){
 Route::get('products' , [ProductsController::class , 'products']);
 
 Route::group(['prefix' => 'cart' , 'middleware' => 'jwtAuth'] , function (){
-    Route::post('add' , [CartController::class , 'addtocart']);
     Route::get('user' , [CartController::class , 'usercart']);
-
+    Route::post('add' , [CartController::class , 'addtocart']);
+    Route::post('delete' , [CartController::class , 'deletefromcart']);
+    Route::post('update' , [CartController::class , 'updatecart']);
 });
+
+Route::post('checkout' , [OrderController::class, 'checkout']);
 
 

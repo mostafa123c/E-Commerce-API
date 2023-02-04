@@ -27,6 +27,11 @@ class repostoryserviceprovider extends ServiceProvider
             'App\Http\Repositories\CartRepository'
         );
 
+        $this->app->bind(
+            'App\Http\Interfaces\orderInterface',
+            'App\Http\Repositories\orderRepository'
+        );
+
     }
 
     /**
