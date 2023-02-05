@@ -4,5 +4,5 @@ namespace App\Http\Interfaces;
 
 interface orderInterface
 {
-    public function checkout();
+    public function checkout($request);
 }

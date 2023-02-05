@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Interfaces\orderInterface;
+use App\Http\Requests\checkoutrequest;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,8 @@ class OrderController extends Controller
        $this->orderinterface = $orderinterface;
    }
 
-   public function checkout()
+   public function checkout(Request $request)
    {
-       return $this->orderinterface->checkout();
+       return $this->orderinterface->checkout($request);
    }
 }
