@@ -17,4 +17,18 @@ class ProductsController extends Controller
    {
        return $this->productsinterface->products();
    }
+
+    public function productsform()
+    {
+        return $this->productsinterface->productsform();
+    }
+    public function uploadproducts(Request $request)
+    {
+        return $this->productsinterface->uploadproducts($request);
+    }
+
+    public function downloadproducts()
+    {
+        return $this->productsinterface->downloadproducts();
+    }
 }

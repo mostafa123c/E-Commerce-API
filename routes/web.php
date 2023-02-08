@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/products' , [ProductsController::class , 'productsform'])->name('products');
+Route::post('/products' , [ProductsController::class , 'uploadproducts'])->name('products.upload');
+Route::get('/download' , [ProductsController::class , 'downloadproducts'])->name('products.download');
+
